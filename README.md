@@ -18,15 +18,37 @@ Inside your active Firefox profile folder:
 
 Close Firefox before reading the file, or copy it elsewhere first — SQLite may refuse to open it while Firefox holds a lock.
 
-## Usage
+## Installation
 
-After installing (see Development below), use the installed console script:
+The fastest way is [`uv`](https://docs.astral.sh/uv/) — no manual venv, no system Python pollution.
+
+Run it once, zero install, latest published version:
+
+```sh
+uvx ff-synctool-export path/to/synced-tabs.sqlite3
+```
+
+Install as a persistent CLI on your `$PATH`:
+
+```sh
+uv tool install ff-synctool
+ff-synctool-export path/to/synced-tabs.sqlite3
+```
+
+Or use pip / pipx if you prefer:
+
+```sh
+pipx install ff-synctool      # isolated install, recommended for pip users
+pip install ff-synctool       # into the active environment
+```
+
+## Usage
 
 ```sh
 ff-synctool-export path/to/synced-tabs.sqlite3
 ```
 
-Or run the module directly from a checkout:
+Or run the module directly from a checkout (no install needed):
 
 ```sh
 python -m ff_synctool.export path/to/synced-tabs.sqlite3
@@ -67,6 +89,16 @@ sqlite> PRAGMA table_info(tabs);
 Proof of concept. Read-only against your Firefox profile, no warranty. Not affiliated with Mozilla.
 
 ## Development
+
+With [`uv`](https://docs.astral.sh/uv/) (recommended — auto-creates `.venv`, locks resolution):
+
+```sh
+uv sync --extra dev
+uv run ruff check .
+uv run pytest
+```
+
+Or plain pip in your own venv:
 
 ```sh
 pip install -e ".[dev]"
